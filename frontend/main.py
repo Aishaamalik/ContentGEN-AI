@@ -26,11 +26,18 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     .feature-card {
-        background-color: #f0f2f6;
+        background-color: #ffffff;
         padding: 1rem;
         border-radius: 10px;
         margin: 1rem 0;
         border-left: 5px solid #1f77b4;
+        color: #000000;
+    }
+    .feature-card h4 {
+        color: #000000;
+    }
+    .feature-card p {
+        color: #000000;
     }
 </style>
 """, unsafe_allow_html=True)
