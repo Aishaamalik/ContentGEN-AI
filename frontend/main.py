@@ -1,0 +1,66 @@
+import streamlit as st
+from streamlit_option_menu import option_menu
+
+# Set page configuration
+st.set_page_config(
+    page_title="AI Content Generator",
+    page_icon="✨",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Custom CSS for better styling
+st.markdown("""
+<style>
+    .main-header {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1f77b4;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .sub-header {
+        font-size: 1.5rem;
+        color: #666;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .feature-card {
+        background-color: #f0f2f6;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        border-left: 5px solid #1f77b4;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Sidebar navigation
+with st.sidebar:
+    st.title("🧠 AI Content Generator")
+    st.markdown("---")
+
+    selected = option_menu(
+        menu_title=None,
+        options=["Home", "Product Description", "Blog Post", "Promotional Copy"],
+        icons=["house", "box", "book", "megaphone"],
+        default_index=0,
+    )
+
+# Main content based on selection
+if selected == "Home":
+    from pages.home import show_home
+    show_home()
+elif selected == "Product Description":
+    from pages.product_description import show_product_description
+    show_product_description()
+elif selected == "Blog Post":
+    from pages.blog_post import show_blog_post
+    show_blog_post()
+elif selected == "Promotional Copy":
+    from pages.promotional_copy import show_promotional_copy
+    show_promotional_copy()
+
+# Footer
+st.markdown("---")
+st.markdown("Built with ❤️ using Streamlit and Groq AI")
