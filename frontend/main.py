@@ -56,16 +56,16 @@ with st.sidebar:
 
 # Main content based on selection
 if selected == "Home":
-    from pages.home import show_home
+    from home import show_home
     show_home()
 elif selected == "Product Description":
-    from pages.product_description import show_product_description
+    from product_description import show_product_description
     show_product_description()
 elif selected == "Blog Post":
-    from pages.blog_post import show_blog_post
+    from blog_post import show_blog_post
     show_blog_post()
 elif selected == "Promotional Copy":
-    from pages.promotional_copy import show_promotional_copy
+    from promotional_copy import show_promotional_copy
     show_promotional_copy()
 
 # Footer
