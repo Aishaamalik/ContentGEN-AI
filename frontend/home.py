@@ -70,4 +70,5 @@ def show_home():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("🚀 Get Started", type="primary", use_container_width=True):
-            st.switch_page("pages/product_description.py")
+            st.session_state.selected = "Product Description"
+            st.rerun()

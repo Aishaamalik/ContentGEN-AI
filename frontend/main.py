@@ -47,12 +47,17 @@ with st.sidebar:
     st.title("🧠 AI Content Generator")
     st.markdown("---")
 
+    if 'selected' not in st.session_state:
+        st.session_state.selected = "Home"
+
+    options = ["Home", "Product Description", "Blog Post", "Promotional Copy"]
     selected = option_menu(
         menu_title=None,
-        options=["Home", "Product Description", "Blog Post", "Promotional Copy"],
+        options=options,
         icons=["house", "box", "book", "megaphone"],
-        default_index=0,
+        default_index=options.index(st.session_state.selected),
     )
+    st.session_state.selected = selected
 
 # Main content based on selection
 if selected == "Home":
