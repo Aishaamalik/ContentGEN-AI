@@ -75,6 +75,7 @@ def show_blog_post():
 
         # Clean and format the blog post
         blog_content = st.session_state.generated_blog.strip()
+        blog_content = blog_content.replace('**', '')
 
         # Split into sections and format
         lines = blog_content.split('\n')
