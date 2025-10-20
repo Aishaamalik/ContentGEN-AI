@@ -193,22 +193,7 @@ def show_blog_post():
             word_count_actual = len(st.session_state.generated_blog.split())
             st.metric("Word Count", word_count_actual)
 
-            # Detailed analytics
-            st.subheader("Detailed Analysis")
-            st.json(analytics)
 
-        # Feedback section
-        st.subheader("⭐ Rate this Content")
-        col1, col2 = st.columns([3, 1])
-
-        with col1:
-            rating = st.slider("Rating (1-5)", 1, 5, 3)
-            feedback = st.text_area("Additional Feedback (optional)", height=80)
-
-        with col2:
-            if st.button("Submit Feedback", use_container_width=True):
-                st.success("Thank you for your feedback!")
-                # Here you could save feedback to database
 
         # Save content
         if st.button("💾 Save Content", type="secondary"):

@@ -46,7 +46,7 @@ def show_home():
     features = [
         "🎨 **Content Personalization**: Choose from different tones (Casual, Formal, Persuasive)",
         "📊 **Content Analytics**: Get SEO insights, readability scores, and sentiment analysis",
-        "⭐ **User Feedback**: Rate generated content and provide feedback for improvements",
+
         "💾 **Save & Reuse**: Store your favorite content for future use",
         "🎯 **Target Audience**: Customize content for specific demographics"
     ]
