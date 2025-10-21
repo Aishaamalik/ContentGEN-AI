@@ -12,7 +12,13 @@ def show_product_description():
     st.title("📝 Product Description Generator")
     st.markdown("Generate compelling product descriptions for your e-commerce store")
 
-    # Input form
+    # Input form with glass effect
+    st.markdown("""
+    <div class="content-container">
+    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">📝 Enter Product Details</h3>
+    </div>
+    """, unsafe_allow_html=True)
+
     with st.form("product_form"):
         col1, col2 = st.columns(2)
 
@@ -30,7 +36,7 @@ def show_product_description():
                                placeholder="e.g., noise cancellation, 30-hour battery, comfortable fit",
                                height=100)
 
-        submitted = st.form_submit_button("Generate Description", type="primary")
+        submitted = st.form_submit_button("✨ Generate Description", type="primary")
 
     if submitted and product_name and features:
         with st.spinner("Generating your product description..."):
@@ -65,17 +71,21 @@ def show_product_description():
         with col3:
             st.markdown(f"**Tone:** {st.session_state.tone}")
 
-        # Formatted description in a card-like container
+        # Formatted description in a glass effect container
         st.markdown("""
+        <div class="content-container" style="animation: fadeInScale 0.8s ease-out;">
         <div style="
-            background-color: #f8f9fa;
-            border-left: 4px solid #007bff;
+            background: var(--background-glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid var(--primary-color);
             padding: 20px;
-            border-radius: 8px;
-            margin: 10px 0;
+            border-radius: var(--border-radius);
             font-size: 16px;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-light);
         ">
         """, unsafe_allow_html=True)
 
@@ -113,27 +123,39 @@ def show_product_description():
             st.code(st.session_state.generated_description, language=None)
             st.success("Description copied to clipboard!")
 
-        # Analytics section
+        # Analytics section with enhanced styling
         with st.expander("📊 Content Analytics"):
             analytics = analyze_content(st.session_state.generated_description, st.session_state.product_name)
 
             col1, col2, col3 = st.columns(3)
 
             with col1:
-                st.metric("Readability Score",
-                         f"{analytics['readability']['score']}/100",
-                         help=f"Level: {analytics['readability']['level']}")
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Readability Score</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">{}/100</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Level: {}</div>
+                </div>
+                """.format(analytics['readability']['score'], analytics['readability']['level']), unsafe_allow_html=True)
 
             with col2:
-                st.metric("Sentiment",
-                         analytics['sentiment']['sentiment'],
-                         help=f"Compound Score: {analytics['sentiment']['compound_score']}")
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Sentiment</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">{}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Score: {:.3f}</div>
+                </div>
+                """.format(analytics['sentiment']['sentiment'], analytics['sentiment']['compound_score']), unsafe_allow_html=True)
 
             with col3:
                 if 'keyword_density' in analytics:
-                    st.metric("Keyword Density",
-                             f"{analytics['keyword_density']}%",
-                             help="Density of product name in description")
+                    st.markdown("""
+                    <div class="metric-card">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Keyword Density</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);">{:.1f}%</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Product name density</div>
+                    </div>
+                    """.format(analytics['keyword_density']), unsafe_allow_html=True)
 
 
 

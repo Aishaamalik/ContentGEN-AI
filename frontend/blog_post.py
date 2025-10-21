@@ -12,7 +12,13 @@ def show_blog_post():
     st.title("📖 Blog Post Generator")
     st.markdown("Create comprehensive blog posts for your e-commerce website")
 
-    # Input form
+    # Input form with glass effect
+    st.markdown("""
+    <div class="content-container">
+    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">📝 Enter Blog Details</h3>
+    </div>
+    """, unsafe_allow_html=True)
+
     with st.form("blog_form"):
         col1, col2 = st.columns(2)
 
@@ -25,7 +31,7 @@ def show_blog_post():
                                          ["General", "Young Adults", "Families", "Professionals", "Seniors"])
             word_count = st.selectbox("Approximate Word Count", ["500", "750", "1000", "1500"])
 
-        submitted = st.form_submit_button("Generate Blog Post", type="primary")
+        submitted = st.form_submit_button("✨ Generate Blog Post", type="primary")
 
     if submitted and blog_topic:
         with st.spinner("Generating your blog post..."):
@@ -59,17 +65,21 @@ def show_blog_post():
             word_count = len(st.session_state.generated_blog.split())
             st.markdown(f"**Words:** {word_count}")
 
-        # Formatted blog post in a card-like container
+        # Formatted blog post in a glass effect container
         st.markdown("""
+        <div class="content-container" style="animation: fadeInScale 0.8s ease-out;">
         <div style="
-            background-color: #f8f9fa;
-            border-left: 4px solid #28a745;
+            background: var(--background-glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid var(--accent-color);
             padding: 20px;
-            border-radius: 8px;
-            margin: 10px 0;
+            border-radius: var(--border-radius);
             font-size: 16px;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-light);
         ">
         """, unsafe_allow_html=True)
 
@@ -168,31 +178,49 @@ def show_blog_post():
             st.code(st.session_state.generated_blog, language=None)
             st.success("Blog post copied to clipboard!")
 
-        # Analytics section
+        # Analytics section with enhanced styling
         with st.expander("📊 Content Analytics"):
             analytics = analyze_content(st.session_state.generated_blog, st.session_state.blog_topic)
 
-            col1, col2, col3 = st.columns(3)
+            col1, col2, col3, col4 = st.columns(4)
 
             with col1:
-                st.metric("Readability Score",
-                         f"{analytics['readability']['score']}/100",
-                         help=f"Level: {analytics['readability']['level']}")
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Readability Score</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">{}/100</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Level: {}</div>
+                </div>
+                """.format(analytics['readability']['score'], analytics['readability']['level']), unsafe_allow_html=True)
 
             with col2:
-                st.metric("Sentiment",
-                         analytics['sentiment']['sentiment'],
-                         help=f"Compound Score: {analytics['sentiment']['compound_score']}")
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Sentiment</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">{}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Score: {:.3f}</div>
+                </div>
+                """.format(analytics['sentiment']['sentiment'], analytics['sentiment']['compound_score']), unsafe_allow_html=True)
 
             with col3:
                 if 'keyword_density' in analytics:
-                    st.metric("Keyword Density",
-                             f"{analytics['keyword_density']}%",
-                             help="Density of topic keywords in content")
+                    st.markdown("""
+                    <div class="metric-card">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Keyword Density</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);">{:.1f}%</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Topic keywords</div>
+                    </div>
+                    """.format(analytics['keyword_density']), unsafe_allow_html=True)
 
-            # Word count
-            word_count_actual = len(st.session_state.generated_blog.split())
-            st.metric("Word Count", word_count_actual)
+            with col4:
+                word_count_actual = len(st.session_state.generated_blog.split())
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Word Count</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">{:,}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Total words</div>
+                </div>
+                """.format(word_count_actual), unsafe_allow_html=True)
 
 
 

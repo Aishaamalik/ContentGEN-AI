@@ -12,7 +12,13 @@ def show_promotional_copy():
     st.title("📢 Promotional Copy Generator")
     st.markdown("Create engaging promotional content for your marketing campaigns")
 
-    # Input form
+    # Input form with glass effect
+    st.markdown("""
+    <div class="content-container">
+    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">📝 Enter Promotion Details</h3>
+    </div>
+    """, unsafe_allow_html=True)
+
     with st.form("promo_form"):
         col1, col2 = st.columns(2)
 
@@ -27,7 +33,7 @@ def show_promotional_copy():
             target_audience = st.selectbox("Target Audience",
                                          ["General", "Young Adults", "Families", "Professionals", "Seniors"])
 
-        submitted = st.form_submit_button("Generate Promotional Copy", type="primary")
+        submitted = st.form_submit_button("✨ Generate Promotional Copy", type="primary")
 
     if submitted and promotion_details:
         with st.spinner("Generating your promotional copy..."):
@@ -61,22 +67,26 @@ def show_promotional_copy():
         with col3:
             st.markdown(f"**Platform:** {st.session_state.platform}")
 
-        # Formatted promotional copy in a card-like container
+
+        # Formatted promotional copy in a glass effect container
         st.markdown("""
+        <div class="content-container" style="animation: fadeInScale 0.8s ease-out;">
         <div style="
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
+            background: var(--background-glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid var(--secondary-color);
             padding: 20px;
-            border-radius: 8px;
-            margin: 10px 0;
+            border-radius: var(--border-radius);
             font-size: 18px;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
             text-align: center;
             font-weight: bold;
+            box-shadow: var(--shadow-light);
         ">
         """, unsafe_allow_html=True)
-
         # Clean and format the promotional copy
         promo_content = st.session_state.generated_promo.strip()
 
@@ -112,25 +122,39 @@ def show_promotional_copy():
         elif st.session_state.platform == "Email":
             st.info("💡 **Email Tip**: Include a clear call-to-action")
 
-        # Analytics section
+        # Analytics section with enhanced styling
         with st.expander("📊 Content Analytics"):
             analytics = analyze_content(st.session_state.generated_promo, st.session_state.promotion_details.split()[0])
 
             col1, col2, col3 = st.columns(3)
 
             with col1:
-                st.metric("Readability Score",
-                         f"{analytics['readability']['score']}/100",
-                         help=f"Level: {analytics['readability']['level']}")
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Readability Score</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">{}/100</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Level: {}</div>
+                </div>
+                """.format(analytics['readability']['score'], analytics['readability']['level']), unsafe_allow_html=True)
 
             with col2:
-                st.metric("Sentiment",
-                         analytics['sentiment']['sentiment'],
-                         help=f"Compound Score: {analytics['sentiment']['compound_score']}")
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Sentiment</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">{}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Score: {:.3f}</div>
+                </div>
+                """.format(analytics['sentiment']['sentiment'], analytics['sentiment']['compound_score']), unsafe_allow_html=True)
 
             with col3:
                 char_count = len(st.session_state.generated_promo)
-                st.metric("Character Count", char_count)
+                st.markdown("""
+                <div class="metric-card">
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Character Count</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);">{:,}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Total characters</div>
+                </div>
+                """.format(char_count), unsafe_allow_html=True)
 
 
 
